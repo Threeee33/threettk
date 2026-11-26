@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YOUR NAME · 小房间风格对照</title>
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #f3f0e7;
+    --card: #fffdf8;
+    --ink: #202632;
+    --muted: #69707b;
+    --line: #d9d5ca;
+    --mint: #4be1c3;
+    --violet: #8b7cff;
+    --orange: #ff8a5b;
+    --yellow: #ffe48a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--paper);
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: linear-gradient(#20263208 1px, transparent 1px), linear-gradient(90deg, #20263208 1px, transparent 1px);
+    background-size: 28px 28px;
+    content: "";
+  }
+  button { font: inherit; }
+  button:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
+  ::selection { color: #fff; background: var(--violet); }
+  .shell { width: min(1440px, calc(100% - 56px)); margin: 0 auto; }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    background: var(--mint);
+    box-shadow: 4px 4px 0 var(--ink);
+    font: 800 12px/1 ui-monospace, Consolas, monospace;
+  }
+  .brand b { display: block; font-size: 13px; letter-spacing: .02em; }
+  .brand small { display: block; margin-top: 4px; color: var(--muted); font: 10px/1 ui-monospace, Consolas, monospace; }
+  .back-link {
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    background: var(--card);
+    font-size: 12px;
+    text-decoration: none;
+  }
+  .back-link:hover { border-color: var(--ink); }
+  .hero { padding: 50px 0 32px; }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 16px;
+    color: #5e6470;
+    font: 700 10px/1.2 ui-monospace, Consolas, monospace;
+    letter-spacing: .14em;
+  }
+  .eyebrow::before { width: 22px; height: 2px; background: var(--violet); content: ""; }
+  h1 { margin: 0; font-size: clamp(38px, 5.2vw, 72px); line-height: 1.05; letter-spacing: -.065em; }
+  h1 span { color: var(--violet); }
+  .hero-row { display: flex; align-items: end; justify-content: space-between; gap: 36px; margin-top: 22px; }
+  .hero-copy { max-width: 650px; margin: 0; color: var(--muted); font-size: 15px; line-height: 1.9; }
+  .spec-list { display: flex; flex-wrap: wrap; gap: 7px; justify-content: flex-end; }
+  .spec-list span {
+    padding: 7px 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fffdf880;
+    color: #535a65;
+    font: 10px/1 ui-monospace, Consolas, monospace;
+    white-space: nowrap;
+  }
+  .toolbar {
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 22px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #fffdf8ed;
+    box-shadow: 0 10px 30px #2026320c;
+    backdrop-filter: blur(12px);
+  }
+  .actions { display: flex; gap: 7px; }
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 10px 15px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: #626975;
+    background: #f6f3eb;
+    cursor: pointer;
+    transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  .action-btn:hover { color: var(--ink); border-color: #9b98a0; transform: translateY(-1px); }
+  .action-btn[aria-pressed="true"] { color: #fff; border-color: var(--ink); background: var(--ink); }
+  .action-icon { display: grid; place-items: center; width: 22px; font-size: 18px; line-height: 1; }
+  .action-btn b { font-size: 12px; font-weight: 650; }
+  .action-btn small { font: 9px/1 ui-monospace, Consolas, monospace; opacity: .6; }
+  .action-status { display: flex; align-items: center; gap: 10px; min-width: 250px; padding-right: 8px; }
+  .status-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px #4be1c324; }
+  .action-status b { display: block; font-size: 12px; font-weight: 650; }
+  .action-status p { margin: 3px 0 0; color: var(--muted); font-size: 10px; line-height: 1.4; }
+  .compare-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+  .style-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1.5px solid var(--ink);
+    border-radius: 18px;
+    background: var(--card);
+    box-shadow: 6px 6px 0 #20263212;
+  }
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 17px 19px; border-bottom: 1px solid var(--line); }
+  .card-title { display: flex; align-items: center; gap: 12px; }
+  .style-index { color: #8b8f98; font: 700 11px/1 ui-monospace, Consolas, monospace; }
+  .card-title h2 { margin: 0; font-size: 17px; letter-spacing: -.025em; }
+  .card-title p { margin: 4px 0 0; color: var(--muted); font: 9px/1.3 ui-monospace, Consolas, monospace; letter-spacing: .08em; }
+  .style-badge { padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; color: #59606b; font: 9px/1 ui-monospace, Consolas, monospace; white-space: nowrap; }
+  .canvas-wrap { position: relative; aspect-ratio: 4 / 3; min-height: 300px; overflow: hidden; }
+  .pixel-stage { background: linear-gradient(#bde8e3 0 62%, #e8d8bd 62%); }
+  .webgl-stage { background: radial-gradient(circle at 72% 18%, #fff6d9 0 7%, transparent 30%), linear-gradient(145deg, #dcece9, #c8dcd9 68%, #b7cecb); }
+  canvas { display: block; width: 100%; height: 100%; }
+  #pixelCanvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+  #room3D { cursor: grab; touch-action: none; }
+  #room3D.dragging { cursor: grabbing; }
+  .stage-tag {
+    position: absolute;
+    top: 13px;
+    left: 13px;
+    padding: 7px 9px;
+    border: 1px solid #20263233;
+    border-radius: 6px;
+    color: #28313d;
+    background: #fffdf8d9;
+    font: 700 9px/1 ui-monospace, Consolas, monospace;
+    letter-spacing: .08em;
+    pointer-events: none;
+  }
+  .stage-hint {
+    position: absolute;
+    right: 13px;
+    bottom: 12px;
+    padding: 6px 8px;
+    border-radius: 5px;
+    color: #fff;
+    background: #202632c9;
+    font: 9px/1.2 ui-monospace, Consolas, monospace;
+    pointer-events: none;
+  }
+  .webgl-fallback { position: absolute; inset: 0; display: none; place-items: center; padding: 30px; color: #7c3f34; background: #fff2df; text-align: center; }
+  .card-foot { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; min-height: 88px; padding: 15px 19px; border-top: 1px solid var(--line); }
+  .card-foot p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.75; }
+  .tech-pill { padding: 6px 8px; border-radius: 5px; color: #4a4f5a; background: #efede6; font: 9px/1 ui-monospace, Consolas, monospace; white-space: nowrap; }
+  .notes { display: grid; grid-template-columns: 1.05fr 1fr 1fr; gap: 16px; margin: 30px 0 54px; }
+  .note { padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: #fffdf8a8; }
+  .note-kicker { margin: 0 0 10px; color: #7a808b; font: 700 9px/1 ui-monospace, Consolas, monospace; letter-spacing: .12em; }
+  .note h3 { margin: 0 0 10px; font-size: 15px; }
+  .note p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.8; }
+  .swatches { display: flex; gap: 5px; margin-top: 14px; }
+  .swatches i { width: 22px; height: 22px; border: 1px solid #20263225; border-radius: 5px; }
+  .character-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 13px; }
+  .character-chips span { padding: 5px 7px; border-radius: 5px; color: #565d68; background: #efede6; font-size: 9px; }
+  footer { display: flex; justify-content: space-between; gap: 20px; padding: 20px 0 30px; border-top: 1px solid var(--line); color: #7a808b; font: 9px/1.6 ui-monospace, Consolas, monospace; }
+  @media (max-width: 1050px) {
+    .hero-row { align-items: start; flex-direction: column; gap: 18px; }
+    .spec-list { justify-content: flex-start; }
+    .action-status { min-width: 190px; }
+    .action-btn { padding: 10px 11px; }
+    .action-btn small { display: none; }
+  }
+  @media (max-width: 780px) {
+    .shell { width: min(100% - 28px, 680px); }
+    .topbar { padding: 16px 0; }
+    .hero { padding: 34px 0 24px; }
+    .toolbar { position: static; align-items: stretch; flex-direction: column; gap: 10px; }
+    .actions { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .action-btn { justify-content: center; gap: 6px; padding: 9px 6px; }
+    .action-btn b { font-size: 11px; }
+    .action-status { min-width: 0; padding: 4px 5px; }
+    .compare-grid { grid-template-columns: 1fr; gap: 18px; }
+    .canvas-wrap { min-height: 260px; }
+    .notes { grid-template-columns: 1fr; margin-bottom: 34px; }
+    footer { flex-direction: column; gap: 5px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body data-action="code">
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">#39</div>
+      <div><b>ROOM LAB</b><small>BLOG INTERACTIVE EXPERIMENT</small></div>
+    </div>
+    <a class="back-link" href="gallery.html">← 返回 Demo 画廊</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">SAME ROOM / TWO RENDERING STYLES</p>
+      <h1>同一间小房间，<span>两种画风。</span></h1>
+      <div class="hero-row">
+        <p class="hero-copy">左边是轻盈的等距像素房间，右边是可拖拽旋转的低多边形 3D 房间。家具、角色和动作保持同步，方便你直接比较观感、体积与实现成本。</p>
+        <div class="spec-list" aria-label="Demo 功能">
+          <span>1 个房间</span><span>3 种动作</span><span>1 只小狗</span><span>0 外部依赖</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="toolbar" aria-label="角色动作控制">
+      <div class="actions">
+        <button class="action-btn" type="button" data-action="sleep" aria-pressed="false"><span class="action-icon" aria-hidden="true">☾</span><b>床上睡觉</b><small>1</small></button>
+        <button class="action-btn" type="button" data-action="code" aria-pressed="true"><span class="action-icon" aria-hidden="true">⌘</span><b>桌前写代码</b><small>2</small></button>
+        <button class="action-btn" type="button" data-action="smoke" aria-pressed="false"><span class="action-icon" aria-hidden="true">◌</span><b>阳台抽烟</b><small>3</small></button>
+      </div>
+      <div class="action-status" aria-live="polite">
+        <span class="status-dot" aria-hidden="true"></span>
+        <div><b id="statusTitle">正在修复一个微小但顽固的 bug</b><p id="statusCopy">人物在书桌前敲键盘，小狗趴在脚边。</p></div>
+      </div>
+    </section>
+
+    <section class="compare-grid" aria-label="两种小房间风格对照">
+      <article class="style-card">
+        <header class="card-head">
+          <div class="card-title"><span class="style-index">A</span><div><h2>等距像素风</h2><p>ISOMETRIC PIXEL ROOM</p></div></div>
+          <span class="style-badge">2.5D · 固定视角</span>
+        </header>
+        <div class="canvas-wrap pixel-stage">
+          <canvas id="pixelCanvas" width="480" height="360" aria-label="等距像素小房间：床、书桌、阳台、人物和小狗"></canvas>
+          <span class="stage-tag">480 × 360 / PIXEL</span>
+          <span class="stage-hint">Canvas 2D · 阶梯动画</span>
+        </div>
+        <footer class="card-foot"><p>所有家具都是代码生成的像素块。轮廓硬、体积小，适合直接嵌进博客文章或侧边栏。</p><span class="tech-pill">CANVAS 2D</span></footer>
+      </article>
+
+      <article class="style-card">
+        <header class="card-head">
+          <div class="card-title"><span class="style-index">B</span><div><h2>低多边形 3D</h2><p>LOW-POLY 3D ROOM</p></div></div>
+          <span class="style-badge">3D · 可旋转视角</span>
+        </header>
+        <div class="canvas-wrap webgl-stage">
+          <canvas id="room3D" aria-label="可拖拽旋转的低多边形 3D 小房间"></canvas>
+          <span class="stage-tag">WEBGL / FLAT SHADING</span>
+          <span class="stage-hint">拖拽旋转 · 滚轮缩放</span>
+          <div class="webgl-fallback" id="webglFallback">当前浏览器未能启动 WebGL，请开启硬件加速后重试。</div>
+        </div>
+        <footer class="card-foot"><p>家具由几何体搭建，拥有真实透视、光照和阴影。细节更立体，但资源与交互成本也更高。</p><span class="tech-pill">WEBGL</span></footer>
+      </article>
+    </section>
+
+    <section class="notes" aria-label="实现建议">
+      <article class="note">
+        <p class="note-kicker">01 / CHARACTER FIRST</p>
+        <h3>先定义角色，再定义动作</h3>
+        <p>这次先固定了薄荷绿短发、紫色卫衣和浅色长裤，再分别转成 16 × 24 像素轮廓与低多边形几何体。三视图和动作姿态会比“长得可爱”更重要。</p>
+        <div class="swatches" aria-label="角色配色"><i style="background:#36d399"></i><i style="background:#8b7cff"></i><i style="background:#ffd7b5"></i><i style="background:#202632"></i><i style="background:#f7f3e8"></i></div>
+      </article>
+      <article class="note">
+        <p class="note-kicker">02 / PIXEL ADVANTAGE</p>
+        <h3>像素版更适合博客</h3>
+        <p>绘制逻辑简单、加载稳定，在 Retina 屏幕上放大仍然清晰。限制是视角固定，遮挡关系需要手动按层级排序。</p>
+        <div class="character-chips"><span>资源小</span><span>风格统一</span><span>无需模型</span></div>
+      </article>
+      <article class="note">
+        <p class="note-kicker">03 / 3D ADVANTAGE</p>
+        <h3>3D 版更像可探索的空间</h3>
+        <p>拖拽后能看见房间侧面，家具和角色都有真实体积。后续可接模型加载器、骨骼动画与点击交互，但需要控制多边形数量和绘制调用。</p>
+        <div class="character-chips"><span>空间感强</span><span>可交互</span><span>可扩展模型</span></div>
+      </article>
+    </section>
+  </main>
+
+  <footer><span>ROOM LAB · STYLE COMPARISON DEMO</span><span>快捷键 1 / 2 / 3 切换动作</span></footer>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const actionCopy = {
+    sleep: ['正在充电中，请勿打扰', '人物躺在床上睡觉，小狗蜷在地毯边。'],
+    code: ['正在修复一个微小但顽固的 bug', '人物在书桌前敲键盘，小狗趴在脚边。'],
+    smoke: ['在阳台透口气，顺便想想架构', '人物靠在阳台栏杆旁，小狗坐在一旁。']
+  };
+  let action = 'code';
+  let elapsed = 0;
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const actionButtons = [...document.querySelectorAll('.action-btn')];
+  const statusTitle = document.getElementById('statusTitle');
+  const statusCopy = document.getElementById('statusCopy');
+
+  function setAction(next) {
+    if (!actionCopy[next]) return;
+    action = next;
+    document.body.dataset.action = next;
+    actionButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.action === next)));
+    statusTitle.textContent = actionCopy[next][0];
+    statusCopy.textContent = actionCopy[next][1];
+  }
+
+  actionButtons.forEach(button => button.addEventListener('click', () => setAction(button.dataset.action)));
+  addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    const next = { '1': 'sleep', '2': 'code', '3': 'smoke' }[event.key];
+    if (next) setAction(next);
+  });
+
+  const pixelCanvas = document.getElementById('pixelCanvas');
+  const ctx = pixelCanvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+  const palette = {
+    ink: '#202632', floor: '#d4b58d', floorAlt: '#cdaa82', wall: '#efe4cf', wallSide: '#d8c9b1',
+    mint: '#4be1c3', mintDark: '#25a78d', skin: '#ffd7b5', violet: '#8b7cff', violetDark: '#6454c7',
+    cream: '#fff6df', orange: '#ff8a5b', yellow: '#ffe48a', wood: '#9a6f51', woodDark: '#6d4c3d',
+    metal: '#687887', glass: '#9bdedb', rug: '#e5a9b8', dog: '#f4e6ca', dogDark: '#c9b18c'
+  };
+
+  function rgb(hex) {
+    const value = parseInt(hex.slice(1), 16);
+    return [value >> 16, (value >> 8) & 255, value & 255];
+  }
+  function shade(hex, amount) {
+    return '#' + rgb(hex).map(value => Math.max(0, Math.min(255, value + amount)).toString(16).padStart(2, '0')).join('');
+  }
+  function iso(x, y, z) { return [160 + (x - z) * 18, 145 + (x + z) * 9 - y * 25]; }
+  function polygon(points, fill, stroke = palette.ink, width = 1) {
+    ctx.beginPath();
+    ctx.moveTo(Math.round(points[0][0]) + .5, Math.round(points[0][1]) + .5);
+    for (let i = 1; i < points.length; i++) ctx.lineTo(Math.round(points[i][0]) + .5, Math.round(points[i][1]) + .5);
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+    if (stroke) {
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = width;
+      ctx.stroke();
+    }
+  }
+  function screenRect(x, y, w, h, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+  }
+  function drawDiamond(x, z, w, d, y, color, stroke = palette.ink) {
+    polygon([iso(x, y, z), iso(x + w, y, z), iso(x + w, y, z + d), iso(x, y, z + d)], color, stroke);
+  }
+  function drawBox(box) {
+    const { x, y, z, w, h, d, color } = box;
+    const a = [iso(x, y, z), iso(x + w, y, z), iso(x + w, y, z + d), iso(x, y, z + d)];
+    const t = [iso(x, y + h, z), iso(x + w, y + h, z), iso(x + w, y + h, z + d), iso(x, y + h, z + d)];
+    polygon([a[1], a[2], t[2], t[1]], shade(color, -24));
+    polygon([a[2], a[3], t[3], t[2]], shade(color, -38));
+    polygon([t[0], t[1], t[2], t[3]], shade(color, 12));
+  }
+  function drawPixelLetter(x, y, letter, color, size = 3) {
+    const maps = { Z: ['111', '001', '010', '100', '111'], S: ['111', '100', '111', '001', '111'] };
+    (maps[letter] || maps.Z).forEach((row, yy) => [...row].forEach((cell, xx) => {
+      if (cell === '1') screenRect(x + xx * size, y + yy * size, size, size, color);
+    }));
+  }
+
+  function roomObjects() {
+    const objects = [];
+    const add = (x, y, z, w, h, d, color) => objects.push({ x, y, z, w, h, d, color, order: x + z + w + d });
+    add(1.05, .18, .72, 3.35, .52, 2.75, palette.violetDark);
+    add(1.16, .7, .82, 3.13, .28, 2.55, palette.cream);
+    add(1.14, .98, 1.94, 3.17, .16, 1.43, palette.violet);
+    add(1.32, 1.02, .98, 1.25, .2, .62, '#fffdf4');
+    add(.93, .12, .62, 3.58, 1.45, .17, palette.woodDark);
+    add(4.65, .05, .82, .72, .7, .72, palette.wood);
+    add(4.74, .75, .91, .53, .12, .53, palette.cream);
+    add(4.88, .87, 1.04, .18, .35, .18, palette.orange);
+    add(6.08, 1.18, 2.15, 2.28, .18, 1.16, palette.wood);
+    add(6.19, .02, 2.27, .15, 1.17, .15, palette.metal);
+    add(8.1, .02, 2.27, .15, 1.17, .15, palette.metal);
+    add(6.19, .02, 3.08, .15, 1.17, .15, palette.metal);
+    add(8.1, .02, 3.08, .15, 1.17, .15, palette.metal);
+    add(6.63, 1.36, 2.38, 1.18, .86, .14, palette.ink);
+    add(6.72, 1.45, 2.53, 1, .65, .025, '#72d8cf');
+    add(7.08, 1.36, 2.59, .08, .28, .08, palette.metal);
+    add(7.01, 1.29, 2.78, .35, .04, .18, palette.metal);
+    add(6.62, 1.37, 2.91, .82, .06, .28, '#d6e5df');
+    add(8.02, 1.37, 2.56, .2, .28, .2, palette.orange);
+    add(7.11, .55, 3.82, .75, .16, .72, palette.violetDark);
+    add(7.13, .7, 4.18, .72, .86, .15, palette.violet);
+    add(7.25, .05, 3.95, .12, .52, .12, palette.metal);
+    add(7.59, .05, 4.16, .12, .52, .12, palette.metal);
+    add(4.52, .025, 4.48, 3.15, .035, 2.05, palette.rug);
+    add(10.02, -.12, 1.02, 2.06, .22, 4.05, '#b7b7a5');
+    add(11.98, .1, 1.08, .13, 1.1, 3.94, palette.metal);
+    add(10.08, .1, 1.08, 1.96, .1, .13, palette.metal);
+    add(10.08, .1, 4.88, 1.96, .1, .13, palette.metal);
+    add(11.98, .62, 1.08, .13, .1, 3.94, palette.metal);
+    add(10.08, .62, 1.08, 1.96, .1, .13, palette.metal);
+    add(10.08, .62, 4.88, 1.96, .1, .13, palette.metal);
+    [1.1, 2.35, 3.6, 4.85].forEach(z => add(11.91, .1, z, .16, 1.08, .16, palette.metal));
+    [1.1, 2.35, 3.6, 4.85].forEach(x => add(x, .1, 1, .14, 1.08, .14, palette.metal));
+    add(.38, .05, 6.25, .58, .62, .58, palette.orange);
+    add(.45, .65, 6.32, .42, .55, .42, palette.mintDark);
+    add(.5, 1.05, 6.37, .32, .4, .32, palette.mint);
+    return objects;
+  }
+
+  function drawPixelBackground() {
+    screenRect(0, 0, 480, 360, '#bde8e3');
+    screenRect(0, 74, 480, 72, '#b3d9d4');
+    const skyline = [[8, 83, 32, 66], [47, 103, 24, 46], [80, 78, 38, 71], [126, 111, 25, 38], [357, 94, 31, 55], [395, 73, 45, 76], [447, 104, 24, 45]];
+    skyline.forEach(([x, y, w, h], i) => {
+      screenRect(x, y, w, h, i % 2 ? '#91bdb7' : '#9fc7c1');
+      for (let wy = y + 10; wy < y + h - 6; wy += 15) for (let wx = x + 7; wx < x + w - 4; wx += 12) screenRect(wx, wy, 4, 6, '#c6e3db');
+    });
+    screenRect(0, 146, 480, 214, '#e8d8bd');
+    for (let y = 160; y < 360; y += 32) screenRect(0, y, 480, 1, '#dccbac');
+  }
+
+  function addPixelCharacter(objects) {
+    const add = (x, y, z, w, h, d, color) => objects.push({ x, y, z, w, h, d, color, order: x + z + w + d });
+    if (action === 'sleep') {
+      add(2.35, 1.13, 1.83, .88, .43, 1.34, palette.violet);
+      add(2.43, 1.28, 1.43, .72, .62, .62, palette.skin);
+      add(2.4, 1.81, 1.4, .78, .18, .67, palette.mint);
+      add(2.48, 1.61, 2.03, .09, .07, .03, palette.ink);
+      add(2.87, 1.61, 2.03, .09, .07, .03, palette.ink);
+    } else if (action === 'code') {
+      add(6.96, 1.03, 3.58, .68, .9, .53, palette.violet);
+      add(6.95, 1.9, 3.62, .7, .69, .63, palette.skin);
+      add(6.91, 2.49, 3.59, .78, .18, .69, palette.mint);
+      add(6.99, 2.18, 4.255, .09, .08, .025, palette.ink);
+      add(7.4, 2.18, 4.255, .09, .08, .025, palette.ink);
+      const tap = Math.sin(elapsed * 12) > 0 ? .08 : 0;
+      add(6.63, 1.47 - tap, 3.36, .2, .2, .74, palette.violetDark);
+      add(7.75, 1.47 + tap, 3.36, .2, .2, .74, palette.violetDark);
+      add(6.63, 1.43, 2.92, .2, .16, .35, palette.skin);
+      add(7.75, 1.43, 2.92, .2, .16, .35, palette.skin);
+      add(6.98, .57, 3.35, .26, .48, .69, '#f7f3e8');
+      add(7.35, .57, 3.35, .26, .48, .69, '#f7f3e8');
+      add(6.98, .13, 3.02, .26, .47, .25, palette.ink);
+      add(7.35, .13, 3.02, .26, .47, .25, palette.ink);
+    } else {
+      add(10.73, .69, 2.84, .68, .95, .54, palette.violet);
+      add(10.72, 1.61, 2.87, .7, .7, .64, palette.skin);
+      add(10.69, 2.21, 2.84, .76, .18, .7, palette.mint);
+      add(10.78, 1.9, 3.515, .09, .08, .025, palette.ink);
+      add(11.17, 1.9, 3.515, .09, .08, .025, palette.ink);
+      add(10.75, .13, 2.92, .25, .59, .26, '#f7f3e8');
+      add(11.13, .13, 2.92, .25, .59, .26, '#f7f3e8');
+      add(10.62, 1.45, 2.73, .22, .52, .22, palette.violetDark);
+      add(10.63, 1.69, 2.36, .22, .22, .54, palette.skin);
+      add(10.67, 1.79, 2.18, .1, .1, .28, palette.cream);
+      add(10.71, 1.89, 1.92, .03, .03, .13, palette.orange);
+    }
+  }
+
+  function addPixelDog(objects) {
+    const add = (x, y, z, w, h, d, color) => objects.push({ x, y, z, w, h, d, color, order: x + z + w + d });
+    if (action === 'smoke') {
+      add(10.44, .32, 4.03, .48, .62, .55, palette.dog);
+      add(10.47, .84, 4.02, .51, .48, .52, palette.dog);
+      add(10.38, 1.15, 4.02, .15, .28, .2, palette.dogDark);
+      add(10.91, 1.15, 4.02, .15, .28, .2, palette.dogDark);
+      add(10.57, .96, 4.55, .07, .07, .03, palette.ink);
+      add(10.84, .96, 4.55, .07, .07, .03, palette.ink);
+      add(10.68, .87, 4.58, .1, .08, .04, palette.ink);
+      add(10.41, .1, 4.08, .16, .28, .18, palette.dogDark);
+      add(10.78, .1, 4.08, .16, .28, .18, palette.dogDark);
+      add(10.87, .47, 3.99, .35, .13, .14, palette.dog);
+    } else {
+      const z = action === 'sleep' ? 5.42 : 4.87;
+      add(4.82, .18, z, .93, .43, .48, palette.dog);
+      add(5.57, .29, z, .49, .5, .48, palette.dog);
+      add(5.52, .66, z + .02, .16, .28, .2, palette.dogDark);
+      add(5.97, .66, z + .02, .16, .28, .2, palette.dogDark);
+      add(5.75, .52, z + .49, .07, .07, .03, palette.ink);
+      add(6.03, .52, z + .49, .07, .07, .03, palette.ink);
+      add(5.88, .41, z + .53, .11, .08, .04, palette.ink);
+      add(4.69, .33, z + .2, .37, .13, .15, palette.dogDark);
+      add(4.96, .05, z + .04, .16, .2, .15, palette.dogDark);
+      add(5.49, .05, z + .04, .16, .2, .15, palette.dogDark);
+    }
+  }
+
+  function drawPixelScene() {
+    ctx.clearRect(0, 0, 480, 360);
+    drawPixelBackground();
+    for (let x = 0; x < 10; x++) for (let z = 0; z < 8; z++) drawDiamond(x, z, 1, 1, 0, (x + z) % 2 ? palette.floor : palette.floorAlt, '#b59675');
+    drawDiamond(10, 1, 2, 4, -.08, '#b7b7a5', palette.ink);
+    drawBox({ x: 0, y: 0, z: -.18, w: 10, h: 4.4, d: .18, color: palette.wall });
+    drawBox({ x: -.18, y: 0, z: 0, w: .18, h: 4.4, d: 8, color: palette.wallSide });
+    polygon([iso(6.9, 1.9, .015), iso(8.75, 1.9, .015), iso(8.75, 3.55, .015), iso(6.9, 3.55, .015)], palette.glass, palette.woodDark);
+    polygon([iso(7.82, 1.9, .03), iso(7.88, 1.9, .03), iso(7.88, 3.55, .03), iso(7.82, 3.55, .03)], palette.cream, null);
+    polygon([iso(6.9, 2.68, .03), iso(8.75, 2.68, .03), iso(8.75, 2.74, .03), iso(6.9, 2.74, .03)], palette.cream, null);
+    const objects = roomObjects();
+    addPixelCharacter(objects);
+    addPixelDog(objects);
+    objects.sort((a, b) => a.order - b.order);
+    objects.forEach(drawBox);
+
+    if (action === 'code') {
+      for (let i = 0; i < 4; i++) {
+        const width = [24, 17, 29, 12][i];
+        polygon([iso(6.79 + i * .01, 1.95 - i * .13, 2.565), iso(6.79 + width / 18 + i * .01, 1.95 - i * .13, 2.565), iso(6.79 + width / 18 + i * .01, 1.99 - i * .13, 2.565), iso(6.79 + i * .01, 1.99 - i * .13, 2.565)], i === Math.floor(elapsed * 3) % 4 ? palette.yellow : '#2e716f', null);
+      }
+    }
+    if (action === 'sleep') {
+      const rise = (elapsed * 9) % 28;
+      drawPixelLetter(249 - rise * .15, 105 - rise, 'Z', '#4f6f72', 3);
+      drawPixelLetter(265 - rise * .1, 82 - rise * .72, 'Z', '#6f8b8b', 2);
+    }
+    if (action === 'smoke') {
+      for (let i = 0; i < 5; i++) {
+        const phase = (elapsed * .38 + i * .19) % 1;
+        const x = 326 + Math.sin(phase * 7 + i) * 8;
+        const y = 137 - phase * 58;
+        ctx.globalAlpha = 1 - phase;
+        screenRect(x, y, 3 + phase * 4, 3 + phase * 4, '#eaf7ee');
+        ctx.globalAlpha = 1;
+      }
+    }
+    const vignette = ctx.createLinearGradient(0, 0, 0, 360);
+    vignette.addColorStop(0, '#ffffff00');
+    vignette.addColorStop(1, '#20263214');
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, 480, 360);
+  }
+
+  const glCanvas = document.getElementById('room3D');
+  const gl = glCanvas.getContext('webgl', { antialias: true, alpha: true, premultipliedAlpha: false });
+  let render3D = () => {};
+
+  if (gl) {
+    const vertexSource = `
+      attribute vec3 aPosition;
+      attribute vec3 aNormal;
+      uniform mat4 uModel;
+      uniform mat4 uViewProjection;
+      varying vec3 vNormal;
+      varying vec3 vWorld;
+      void main() {
+        vec4 world = uModel * vec4(aPosition, 1.0);
+        vWorld = world.xyz;
+        vNormal = normalize(mat3(uModel) * aNormal);
+        gl_Position = uViewProjection * world;
+      }
+    `;
+    const fragmentSource = `
+      precision mediump float;
+      uniform vec3 uColor;
+      uniform vec3 uCamera;
+      uniform float uAlpha;
+      uniform float uUnlit;
+      varying vec3 vNormal;
+      varying vec3 vWorld;
+      void main() {
+        vec3 normal = normalize(vNormal);
+        vec3 light = normalize(vec3(-0.45, 0.9, 0.55));
+        float diffuse = max(dot(normal, light), 0.0);
+        float lightAmount = mix(0.64 + diffuse * 0.4, 1.0, uUnlit);
+        vec3 color = uColor * lightAmount;
+        float distanceToCamera = distance(vWorld, uCamera);
+        float fog = smoothstep(17.0, 30.0, distanceToCamera);
+        color = mix(color, vec3(0.79, 0.86, 0.84), fog * 0.55);
+        gl_FragColor = vec4(color, uAlpha);
+      }
+    `;
+    function compile(type, source) {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(shader));
+      return shader;
+    }
+    const program = gl.createProgram();
+    gl.attachShader(program, compile(gl.VERTEX_SHADER, vertexSource));
+    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fragmentSource));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
+    gl.useProgram(program);
+    const locations = {
+      position: gl.getAttribLocation(program, 'aPosition'),
+      normal: gl.getAttribLocation(program, 'aNormal'),
+      model: gl.getUniformLocation(program, 'uModel'),
+      viewProjection: gl.getUniformLocation(program, 'uViewProjection'),
+      color: gl.getUniformLocation(program, 'uColor'),
+      camera: gl.getUniformLocation(program, 'uCamera'),
+      alpha: gl.getUniformLocation(program, 'uAlpha'),
+      unlit: gl.getUniformLocation(program, 'uUnlit')
+    };
+
+    function createMesh(positions, normals) {
+      const mesh = { count: positions.length / 3, position: gl.createBuffer(), normal: gl.createBuffer() };
+      gl.bindBuffer(gl.ARRAY_BUFFER, mesh.position);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+      gl.bindBuffer(gl.ARRAY_BUFFER, mesh.normal);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.STATIC_DRAW);
+      return mesh;
+    }
+    function triangle(positions, normals, a, b, c) {
+      const ux = b[0] - a[0], uy = b[1] - a[1], uz = b[2] - a[2];
+      const vx = c[0] - a[0], vy = c[1] - a[1], vz = c[2] - a[2];
+      let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+      const length = Math.hypot(nx, ny, nz) || 1;
+      nx /= length; ny /= length; nz /= length;
+      positions.push(...a, ...b, ...c);
+      normals.push(nx, ny, nz, nx, ny, nz, nx, ny, nz);
+    }
+    function quad(positions, normals, a, b, c, d) {
+      triangle(positions, normals, a, b, c);
+      triangle(positions, normals, a, c, d);
+    }
+    function boxMesh() {
+      const p = [], n = [];
+      const v = [
+        [[-.5, -.5, .5], [.5, -.5, .5], [.5, .5, .5], [-.5, .5, .5]],
+        [[.5, -.5, -.5], [-.5, -.5, -.5], [-.5, .5, -.5], [.5, .5, -.5]],
+        [[.5, -.5, .5], [.5, -.5, -.5], [.5, .5, -.5], [.5, .5, .5]],
+        [[-.5, -.5, -.5], [-.5, -.5, .5], [-.5, .5, .5], [-.5, .5, -.5]],
+        [[-.5, .5, .5], [.5, .5, .5], [.5, .5, -.5], [-.5, .5, -.5]],
+        [[-.5, -.5, -.5], [.5, -.5, -.5], [.5, -.5, .5], [-.5, -.5, .5]]
+      ];
+      v.forEach(face => quad(p, n, ...face));
+      return createMesh(p, n);
+    }
+    function cylinderMesh(topRadius = .5, segments = 8) {
+      const p = [], n = [];
+      for (let i = 0; i < segments; i++) {
+        const a = i / segments * Math.PI * 2, b = (i + 1) / segments * Math.PI * 2;
+        const a0 = [Math.cos(a) * topRadius, .5, Math.sin(a) * topRadius];
+        const b0 = [Math.cos(b) * topRadius, .5, Math.sin(b) * topRadius];
+        const a1 = [Math.cos(a) * .5, -.5, Math.sin(a) * .5];
+        const b1 = [Math.cos(b) * .5, -.5, Math.sin(b) * .5];
+        quad(p, n, a1, b1, b0, a0);
+        triangle(p, n, [0, .5, 0], a0, b0);
+        triangle(p, n, [0, -.5, 0], b1, a1);
+      }
+      return createMesh(p, n);
+    }
+    function sphereMesh(segments = 8, rings = 5) {
+      const p = [], n = [];
+      function point(ring, segment) {
+        const phi = ring / rings * Math.PI;
+        const theta = segment / segments * Math.PI * 2;
+        return [Math.sin(phi) * Math.cos(theta), Math.cos(phi), Math.sin(phi) * Math.sin(theta)];
+      }
+      for (let r = 0; r < rings; r++) for (let s = 0; s < segments; s++) {
+        const a = point(r, s), b = point(r + 1, s), c = point(r + 1, s + 1), d = point(r, s + 1);
+        quad(p, n, a, b, c, d);
+      }
+      return createMesh(p, n);
+    }
+
+    const meshes = { box: boxMesh(), cylinder: cylinderMesh(), cone: cylinderMesh(0), sphere: sphereMesh() };
+    const identity = () => new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+    function multiply(a, b) {
+      const out = new Float32Array(16);
+      for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++) {
+        out[c * 4 + r] = a[r] * b[c * 4] + a[4 + r] * b[c * 4 + 1] + a[8 + r] * b[c * 4 + 2] + a[12 + r] * b[c * 4 + 3];
+      }
+      return out;
+    }
+    function translation(x, y, z) {
+      const m = identity(); m[12] = x; m[13] = y; m[14] = z; return m;
+    }
+    function scaling(x, y, z) {
+      const m = identity(); m[0] = x; m[5] = y; m[10] = z; return m;
+    }
+    function rotationX(angle) {
+      const c = Math.cos(angle), s = Math.sin(angle);
+      return new Float32Array([1, 0, 0, 0, 0, c, s, 0, 0, -s, c, 0, 0, 0, 0, 1]);
+    }
+    function rotationY(angle) {
+      const c = Math.cos(angle), s = Math.sin(angle);
+      return new Float32Array([c, 0, -s, 0, 0, 1, 0, 0, s, 0, c, 0, 0, 0, 0, 1]);
+    }
+    function rotationZ(angle) {
+      const c = Math.cos(angle), s = Math.sin(angle);
+      return new Float32Array([c, s, 0, 0, -s, c, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+    }
+    function modelMatrix(x, y, z, sx, sy, sz, rx = 0, ry = 0, rz = 0) {
+      let m = translation(x, y, z);
+      m = multiply(m, rotationY(ry));
+      m = multiply(m, rotationX(rx));
+      m = multiply(m, rotationZ(rz));
+      return multiply(m, scaling(sx, sy, sz));
+    }
+    function normalize(v) {
+      const l = Math.hypot(...v) || 1;
+      return v.map(value => value / l);
+    }
+    function cross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+    function dot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+    function lookAt(eye, target, up) {
+      const z = normalize(eye.map((value, i) => value - target[i]));
+      const x = normalize(cross(up, z));
+      const y = cross(z, x);
+      return new Float32Array([x[0], y[0], z[0], 0, x[1], y[1], z[1], 0, x[2], y[2], z[2], 0, -dot(x, eye), -dot(y, eye), -dot(z, eye), 1]);
+    }
+    function perspective(fov, aspect, near, far) {
+      const f = 1 / Math.tan(fov / 2), nf = 1 / (near - far);
+      return new Float32Array([f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (far + near) * nf, -1, 0, 0, 2 * far * near * nf, 0]);
+    }
+    function color(hex) { return rgb(hex).map(value => value / 255); }
+    let currentMesh = null;
+    function draw(mesh, matrix, hex, alpha = 1, unlit = false) {
+      if (currentMesh !== mesh) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, mesh.position);
+        gl.enableVertexAttribArray(locations.position);
+        gl.vertexAttribPointer(locations.position, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, mesh.normal);
+        gl.enableVertexAttribArray(locations.normal);
+        gl.vertexAttribPointer(locations.normal, 3, gl.FLOAT, false, 0, 0);
+        currentMesh = mesh;
+      }
+      gl.uniformMatrix4fv(locations.model, false, matrix);
+      gl.uniform3fv(locations.color, color(hex));
+      gl.uniform1f(locations.alpha, alpha);
+      gl.uniform1f(locations.unlit, unlit ? 1 : 0);
+      gl.drawArrays(gl.TRIANGLES, 0, mesh.count);
+    }
+    function box(x, y, z, w, h, d, hex, rx = 0, ry = 0, rz = 0) { draw(meshes.box, modelMatrix(x, y, z, w, h, d, rx, ry, rz), hex); }
+    function sphere(x, y, z, sx, sy, sz, hex) { draw(meshes.sphere, modelMatrix(x, y, z, sx, sy, sz), hex); }
+    function cylinder(x, y, z, radius, height, hex, cone = false) { draw(cone ? meshes.cone : meshes.cylinder, modelMatrix(x, y, z, radius, height, radius), hex); }
+    function shadow(x, z, sx, sz) { draw(meshes.cylinder, modelMatrix(x, .015, z, sx, .015, sz), '#27323a', .16, true); }
+
+    function drawRoom() {
+      box(5, -.13, 4, 10, .26, 8, '#c9a77f');
+      for (let x = 0; x < 10; x++) box(x + .5, .006, 4, .012, .006, 8, '#b3906c');
+      for (let z = 0; z < 8; z++) box(5, .007, z + .5, 10, .006, .012, '#b3906c');
+      box(5, 2.2, -.11, 10, 4.4, .22, '#eee3ce');
+      box(-.11, 2.2, 4, .22, 4.4, 8, '#d9cbb5');
+      box(5, .12, .035, 10, .24, .07, '#b58c69');
+      box(.035, .12, 4, .07, .24, 8, '#ad8462');
+      box(7.82, 2.73, .035, 1.94, 1.65, .12, '#5b6d75');
+      box(7.82, 2.73, .11, 1.7, 1.4, .05, '#a7dfd9');
+      box(7.82, 2.73, .15, .07, 1.4, .04, '#fff6df');
+      box(7.82, 2.73, .15, 1.7, .07, .04, '#fff6df');
+      box(11.02, -.05, 3.02, 2.08, .2, 4.04, '#b8b8a7');
+      for (let x = 10.2; x < 12; x += .45) box(x, .057, 3.02, .012, .008, 3.95, '#a2a493');
+      for (let z = 1.2; z < 5; z += .45) box(11.02, .058, z, 1.96, .008, .012, '#a2a493');
+      box(12.02, .62, 3.02, .1, 1.1, 4.04, '#667784');
+      box(10.04, 1.14, 3.02, 2.04, .09, .09, '#667784');
+      box(10.04, 1.14, 1.02, 2.04, .09, .09, '#667784');
+      box(10.04, 1.14, 5.02, 2.04, .09, .09, '#667784');
+      box(12.02, 1.14, 3.02, .1, .09, 4.04, '#667784');
+      [1.03, 2.35, 3.67, 4.99].forEach(z => box(12.02, .59, z, .11, 1.12, .11, '#667784'));
+      [1.03, 2.35, 3.67, 4.99].forEach(x => box(x, .59, 1.02, .11, 1.12, .11, '#667784'));
+      shadow(2.8, 2.1, 4.2, 3.3);
+      shadow(7.2, 2.85, 2.8, 1.6);
+      shadow(6.1, 5.45, 3.5, 2.3);
+      shadow(11, 3.6, 1.7, 1.8);
+      box(1.05, .36, .74, 3.35, .55, 2.75, '#6758b8');
+      box(1.16, .82, .83, 3.13, .28, 2.54, '#fff4dd');
+      box(1.14, 1.02, 1.96, 3.17, .16, 1.4, '#9384ee');
+      box(1.36, 1.08, 1.08, 1.24, .2, .62, '#fffdf3', 0, 0, -.04);
+      box(.96, .74, .63, 3.58, 1.45, .18, '#735342');
+      box(4.67, .36, .86, .72, .7, .72, '#a87b57');
+      box(4.78, .76, .97, .52, .1, .5, '#fff4dd');
+      cylinder(5.04, .96, 1.22, .1, .36, '#ff9a65');
+      cylinder(5.04, 1.18, 1.22, .19, .19, '#ffe29a', true);
+      box(6.08, 1.27, 2.16, 2.28, .18, 1.16, '#a87b57');
+      [[6.2, 2.28], [8.12, 2.28], [6.2, 3.1], [8.12, 3.1]].forEach(([x, z]) => box(x, .64, z, .13, 1.25, .13, '#657680'));
+      box(6.67, 1.83, 2.42, 1.18, .86, .14, '#27313a');
+      box(6.67, 1.83, 2.505, 1.02, .68, .025, '#71d7ce');
+      for (let i = 0; i < 4; i++) box(6.82, 2.04 - i * .13, 2.525, .68 - (i % 2) * .18, .045, .012, i === Math.floor(elapsed * 3) % 4 ? '#ffe48a' : '#397c7b');
+      box(7.21, 1.48, 2.61, .08, .3, .08, '#657680');
+      box(7.21, 1.32, 2.82, .36, .045, .22, '#657680');
+      box(6.62, 1.39, 3.04, .84, .06, .28, '#d9e5df');
+      box(8.06, 1.49, 2.59, .2, .28, .2, '#ff9366');
+      box(7.48, .67, 3.83, .76, .16, .72, '#6f61be');
+      box(7.48, 1.1, 4.18, .72, .86, .15, '#9384ee');
+      box(7.25, .33, 3.95, .11, .62, .11, '#657680');
+      box(7.7, .33, 4.17, .11, .62, .11, '#657680');
+      box(6.08, .04, 5.5, 3.14, .045, 2.05, '#dfa3b5');
+      box(.66, .34, 6.53, .58, .64, .58, '#d77c56');
+      cylinder(.66, .82, 6.53, .32, .5, '#3f9d83');
+      sphere(.55, 1.14, 6.47, .48, .55, .34, '#4abe9e');
+      sphere(.8, 1.08, 6.61, .42, .48, .32, '#61caaa');
+      sphere(.66, 1.42, 6.5, .35, .43, .34, '#7ad8b8');
+    }
+
+    function drawCharacter() {
+      const skin = '#ffd0aa', hoodie = '#8b7cff', hair = '#36d399', pants = '#f4f0e5';
+      if (action === 'sleep') {
+        shadow(2.8, 2.03, 1.3, 2.05);
+        box(2.8, 1.27, 2.02, .86, .44, 1.36, hoodie, 0, 0, .02);
+        sphere(2.8, 1.48, 1.45, .68, .66, .62, skin);
+        sphere(2.8, 1.78, 1.39, .72, .34, .65, hair);
+        box(2.56, 1.58, 1.94, .1, .045, .035, '#26303a');
+        box(3.01, 1.58, 1.94, .1, .045, .035, '#26303a');
+        box(2.78, 1.42, 1.965, .16, .04, .035, '#d9687a');
+      } else if (action === 'code') {
+        const tap = reducedMotion ? 0 : Math.sin(elapsed * 14) * .035;
+        shadow(7.28, 3.66, 1.2, 1.45);
+        box(7.28, 1.45, 3.7, .69, .91, .55, hoodie);
+        sphere(7.28, 2.28, 3.73, .7, .72, .65, skin);
+        sphere(7.28, 2.62, 3.68, .75, .35, .69, hair);
+        sphere(7.14, 2.38, 4.045, .055, .06, .035, '#26303a');
+        sphere(7.42, 2.38, 4.045, .055, .06, .035, '#26303a');
+        box(7.26, 2.17, 4.075, .13, .035, .03, '#d9687a');
+        box(6.87, 1.54 + tap, 3.42, .21, .22, .72, '#6f61be', -.25);
+        box(7.69, 1.54 - tap, 3.42, .21, .22, .72, '#6f61be', -.25);
+        sphere(6.87, 1.48, 3.04, .19, .15, .22, skin);
+        sphere(7.69, 1.48, 3.04, .19, .15, .22, skin);
+        box(7.1, .83, 3.45, .25, .52, .68, pants);
+        box(7.47, .83, 3.45, .25, .52, .68, pants);
+        box(7.1, .39, 3.12, .26, .55, .26, '#303844');
+        box(7.47, .39, 3.12, .26, .55, .26, '#303844');
+      } else {
+        shadow(11.06, 3.05, 1.05, 1.15);
+        box(11.06, 1.2, 3.02, .69, .98, .55, hoodie);
+        sphere(11.06, 2.12, 3.05, .7, .72, .65, skin);
+        sphere(11.06, 2.47, 3.0, .75, .35, .69, hair);
+        sphere(10.93, 2.22, 3.365, .055, .06, .035, '#26303a');
+        sphere(11.2, 2.22, 3.365, .055, .06, .035, '#26303a');
+        box(11.06, 2.01, 3.4, .13, .035, .03, '#d9687a');
+        box(11.06, .42, 2.99, .26, .67, .28, pants);
+        box(10.74, .42, 3.13, .26, .67, .28, pants);
+        box(11.06, .08, 3.0, .3, .15, .45, '#303844');
+        box(10.74, .08, 3.13, .3, .15, .45, '#303844');
+        box(10.69, 1.54, 2.96, .22, .55, .22, '#6f61be', 0, 0, -.2);
+        box(10.72, 1.78, 2.67, .22, .22, .54, skin);
+        box(10.74, 1.9, 2.43, .09, .09, .29, '#fff8e5');
+        box(10.74, 1.9, 2.27, .035, .035, .06, '#ff8056');
+        for (let i = 0; i < 5; i++) {
+          const phase = (elapsed * .32 + i * .19) % 1;
+          sphere(10.74 + Math.sin(phase * 8 + i) * .09, 2.03 + phase * .92, 2.22 - phase * .08, .04 + phase * .07, .04 + phase * .07, .04 + phase * .07, '#edf7ef', 1 - phase, true);
+        }
+      }
+    }
+
+    function drawDog() {
+      const fur = '#f2e2c3', dark = '#c5aa82';
+      if (action === 'smoke') {
+        shadow(10.68, 4.21, .85, 1.05);
+        sphere(10.67, .55, 4.22, .51, .75, .57, fur);
+        sphere(10.67, 1.08, 4.23, .54, .51, .53, fur);
+        cylinder(10.48, 1.27, 4.2, .13, .34, dark, true);
+        cylinder(10.86, 1.27, 4.2, .13, .34, dark, true);
+        sphere(10.55, 1.12, 4.49, .05, .055, .035, '#26303a');
+        sphere(10.79, 1.12, 4.49, .05, .055, .035, '#26303a');
+        sphere(10.67, 1.01, 4.54, .1, .075, .05, '#26303a');
+        box(10.48, .2, 4.24, .16, .36, .18, dark);
+        box(10.85, .2, 4.24, .16, .36, .18, dark);
+        cylinder(10.98, .65, 4.15, .08, .42, fur);
+      } else {
+        const z = action === 'sleep' ? 5.48 : 4.86;
+        const wag = reducedMotion ? .2 : Math.sin(elapsed * 8) * .25;
+        shadow(5.28, z, 1.55, 1.0);
+        sphere(5.19, .36, z, 1.05, .47, .53, fur);
+        sphere(5.78, .52, z, .53, .54, .52, fur);
+        cylinder(5.7, .79, z, .12, .3, dark, true);
+        cylinder(6.04, .79, z, .12, .3, dark, true);
+        sphere(5.94, .61, z + .255, .05, .055, .035, '#26303a');
+        sphere(6.18, .61, z + .255, .05, .055, .035, '#26303a');
+        sphere(6.07, .49, z + .29, .1, .075, .05, '#26303a');
+        cylinder(4.76, .46, z + .08, .075, .48, fur);
+        const tail = modelMatrix(4.7, .64, z + .18, .09, .09, .46, -.45 + wag, 0, -.6);
+        draw(meshes.cylinder, tail, dark);
+        box(5.05, .14, z + .15, .17, .25, .17, dark);
+        box(5.53, .14, z + .15, .17, .25, .17, dark);
+      }
+    }
+
+    let yaw = .62, pitch = .57, distance = 18.2;
+    const target = [5.65, 1.35, 3.65];
+    let dragging = false, lastX = 0, lastY = 0;
+    glCanvas.addEventListener('pointerdown', event => {
+      dragging = true;
+      lastX = event.clientX;
+      lastY = event.clientY;
+      glCanvas.setPointerCapture(event.pointerId);
+      glCanvas.classList.add('dragging');
+    });
+    glCanvas.addEventListener('pointermove', event => {
+      if (!dragging) return;
+      yaw -= (event.clientX - lastX) * .006;
+      pitch = Math.max(.25, Math.min(1.05, pitch + (event.clientY - lastY) * .005));
+      lastX = event.clientX;
+      lastY = event.clientY;
+    });
+    function stopDragging() { dragging = false; glCanvas.classList.remove('dragging'); }
+    glCanvas.addEventListener('pointerup', stopDragging);
+    glCanvas.addEventListener('pointercancel', stopDragging);
+    glCanvas.addEventListener('wheel', event => {
+      event.preventDefault();
+      distance = Math.max(12.5, Math.min(25, distance + event.deltaY * .012));
+    }, { passive: false });
+    glCanvas.addEventListener('dblclick', () => { yaw = .62; pitch = .57; distance = 18.2; });
+
+    function resize() {
+      const rect = glCanvas.getBoundingClientRect();
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const width = Math.max(1, Math.round(rect.width * dpr));
+      const height = Math.max(1, Math.round(rect.height * dpr));
+      if (glCanvas.width !== width || glCanvas.height !== height) {
+        glCanvas.width = width;
+        glCanvas.height = height;
+        gl.viewport(0, 0, width, height);
+      }
+    }
+    new ResizeObserver(resize).observe(glCanvas);
+    gl.enable(gl.DEPTH_TEST);
+    gl.depthFunc(gl.LEQUAL);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.clearColor(0, 0, 0, 0);
+
+    render3D = () => {
+      resize();
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      const aspect = glCanvas.width / glCanvas.height;
+      const eye = [
+        target[0] + Math.sin(yaw) * Math.cos(pitch) * distance,
+        target[1] + Math.sin(pitch) * distance,
+        target[2] + Math.cos(yaw) * Math.cos(pitch) * distance
+      ];
+      const view = lookAt(eye, target, [0, 1, 0]);
+      const projection = perspective(Math.PI / 4, aspect, .1, 60);
+      gl.uniformMatrix4fv(locations.viewProjection, false, multiply(projection, view));
+      gl.uniform3fv(locations.camera, eye);
+      drawRoom();
+      drawCharacter();
+      drawDog();
+    };
+  } else {
+    document.getElementById('webglFallback').style.display = 'grid';
+  }
+
+  let previous = performance.now();
+  let lastPixelFrame = 0;
+  function frame(now) {
+    const delta = Math.min((now - previous) / 1000, .05);
+    previous = now;
+    if (!reducedMotion) elapsed += delta;
+    if (now - lastPixelFrame > (reducedMotion ? 250 : 50)) {
+      drawPixelScene();
+      lastPixelFrame = now;
+    }
+    render3D();
+    requestAnimationFrame(frame);
+  }
+  drawPixelScene();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

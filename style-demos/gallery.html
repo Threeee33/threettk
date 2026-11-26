@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>个人博客风格筛选 · 38 个 Demo</title>
+<title>个人博客风格筛选 · 39 个 Demo</title>
 <style>
   :root {
     color-scheme: dark;
@@ -33,6 +33,7 @@
     outline: 2px solid var(--accent);
     outline-offset: 3px;
   }
+  [hidden] { display: none !important; }
 
   .app {
     display: grid;
@@ -104,34 +105,111 @@
     scrollbar-color: #3b404a transparent;
     scrollbar-width: thin;
   }
-  .sidebar-head {
+  .sidebar-controls {
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 3;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+  }
+  .sidebar-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
     padding: 18px 18px 12px;
-    background: linear-gradient(var(--panel) 82%, transparent);
   }
   .sidebar-head h2 { margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
   .sidebar-head span { color: var(--muted); font: 11px/1 ui-monospace, Consolas, monospace; }
-  .demo-list { display: grid; gap: 5px; padding: 0 10px 18px; }
+  .sidebar-tools { display: grid; gap: 10px; padding: 0 14px 14px; }
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 10px;
+    border: 1px solid #343942;
+    border-radius: 8px;
+    background: #111318;
+  }
+  .search-box:focus-within { border-color: var(--accent); }
+  .search-box span { color: #7f8793; font-size: 19px; line-height: 1; }
+  .search-box input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    color: var(--text);
+    background: transparent;
+    font-size: 12px;
+  }
+  .search-box input::placeholder { color: #6f7682; }
+  .category-filters { display: flex; flex-wrap: wrap; gap: 5px; }
+  .filter-chip {
+    min-height: 27px;
+    padding: 5px 8px;
+    border: 1px solid #333841;
+    border-radius: 6px;
+    color: #929aa6;
+    background: #1d2026;
+    font-size: 10px;
+    cursor: pointer;
+  }
+  .filter-chip:hover { color: var(--text); border-color: #59616e; }
+  .filter-chip[aria-pressed="true"] { color: var(--accent-ink); border-color: var(--accent); background: var(--accent); }
+  .library-actions { display: flex; gap: 6px; }
+  .library-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 30px;
+    padding: 6px 8px;
+    border: 1px solid #343942;
+    border-radius: 6px;
+    color: #b5bbc5;
+    background: #20242a;
+    font-size: 10px;
+    cursor: pointer;
+  }
+  .library-actions button:hover:not(:disabled) { border-color: #68717e; background: #292e36; }
+  .library-actions button:disabled { opacity: .35; cursor: default; }
+  .library-actions button[aria-pressed="true"] { color: var(--accent); border-color: #536637; background: #252c20; }
+  .hidden-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 999px;
+    color: #dfe3ea;
+    background: #343942;
+    font: 9px/1 ui-monospace, Consolas, monospace;
+  }
+  .filter-summary { margin: 0; color: #7f8793; font: 10px/1.4 ui-monospace, Consolas, monospace; }
+  .demo-list { display: grid; gap: 5px; padding: 12px 10px 18px; }
+  .demo-entry {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 28px;
+    align-items: stretch;
+    gap: 4px;
+    min-width: 0;
+  }
   .demo-item {
     display: grid;
-    grid-template-columns: 38px minmax(0, 1fr) auto;
+    grid-template-columns: 34px minmax(0, 1fr);
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
+    min-width: 0;
     min-height: 57px;
-    padding: 8px 10px;
+    padding: 8px 9px;
     border: 1px solid transparent;
     border-radius: 10px;
     background: transparent;
     text-align: left;
     cursor: pointer;
-    transition: background .16s ease, border-color .16s ease;
+    transition: background .16s ease, border-color .16s ease, opacity .16s ease;
   }
   .demo-item:hover { background: #20242a; }
   .demo-item.on { border-color: #3c462d; background: #252c20; }
@@ -162,18 +240,45 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .demo-group {
-    align-self: start;
-    margin-top: 3px;
-    padding: 3px 6px;
-    border-radius: 4px;
-    background: #2a2e35;
-    color: #aeb5c0;
-    font-size: 9px;
-    line-height: 1.2;
-    white-space: nowrap;
-  }
+  .demo-group { display: none; }
   .demo-item.on .demo-group { background: #39452a; color: #d8f7a2; }
+  .demo-entry.is-hidden .demo-item { opacity: .42; }
+  .demo-entry.is-hidden .demo-copy b { text-decoration: line-through; }
+  .hide-btn {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    min-height: 32px;
+    border: 1px solid #30353d;
+    border-radius: 7px;
+    color: #707885;
+    background: #1b1e24;
+    font-size: 17px;
+    cursor: pointer;
+  }
+  .hide-btn:hover { color: #ff9c9c; border-color: #724346; background: #322125; }
+  .demo-entry.is-hidden .hide-btn { color: var(--accent); border-color: #465632; background: #252c20; }
+  .empty-state {
+    grid-column: 1 / -1;
+    margin: 10px 4px;
+    padding: 24px 16px;
+    border: 1px dashed #3a404a;
+    border-radius: 10px;
+    color: #8d95a2;
+    text-align: center;
+  }
+  .empty-state b { display: block; margin-bottom: 7px; color: #d8dce4; font-size: 12px; }
+  .empty-state p { margin: 0 0 14px; font-size: 10px; line-height: 1.6; }
+  .empty-state button {
+    min-height: 30px;
+    padding: 6px 10px;
+    border: 1px solid #465632;
+    border-radius: 6px;
+    color: var(--accent);
+    background: #252c20;
+    font-size: 10px;
+    cursor: pointer;
+  }
 
   .preview {
     display: grid;
@@ -240,7 +345,7 @@
     .brand-mark { width: 36px; height: 36px; border-radius: 10px; }
     .brand h1 { font-size: 15px; }
     .brand p, .key-hint { display: none; }
-    .workspace { grid-template-columns: 1fr; grid-template-rows: minmax(176px, 34vh) minmax(0, 1fr); }
+    .workspace { grid-template-columns: 1fr; grid-template-rows: minmax(260px, 40vh) minmax(0, 1fr); }
     .sidebar { border-right: 0; border-bottom: 1px solid var(--line); }
     .sidebar-head { padding: 12px 14px 8px; }
     .demo-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 0 8px 12px; }
@@ -260,7 +365,7 @@
   @media (max-width: 460px) {
     .count { padding: 6px 8px; font-size: 10px; }
     .demo-list { grid-template-columns: 1fr; }
-    .workspace { grid-template-rows: minmax(150px, 31vh) minmax(0, 1fr); }
+    .workspace { grid-template-rows: minmax(300px, 44vh) minmax(0, 1fr); }
   }
 </style>
 </head>
@@ -268,23 +373,41 @@
 <div class="app">
   <header class="topbar">
     <div class="brand">
-      <div class="brand-mark">38</div>
+      <div class="brand-mark">39</div>
       <div>
         <h1>个人博客风格筛选</h1>
-        <p>所有现有 Demo 已按数字整合，点击编号即可切换预览。</p>
+        <p>搜索、分类并隐藏不需要的风格，保留结果会自动保存。</p>
       </div>
     </div>
     <div class="top-meta">
-      <span class="count">01—38</span>
+      <span class="count" id="libraryCount">39 款</span>
       <span class="key-hint"><kbd>←</kbd><kbd>→</kbd> 切换</span>
     </div>
   </header>
 
   <div class="workspace">
     <aside class="sidebar">
-      <div class="sidebar-head">
-        <h2>Demo 索引</h2>
-        <span>38 款</span>
+      <div class="sidebar-controls">
+        <div class="sidebar-head">
+          <h2>Demo 索引</h2>
+          <span id="totalCount">39 款</span>
+        </div>
+        <div class="sidebar-tools">
+          <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="搜索编号、风格或说明" aria-label="搜索 Demo" autocomplete="off"></label>
+          <div class="category-filters" role="group" aria-label="按分类筛选">
+            <button class="filter-chip" type="button" data-filter="all" aria-pressed="true">全部</button>
+            <button class="filter-chip" type="button" data-filter="主页" aria-pressed="false">主页</button>
+            <button class="filter-chip" type="button" data-filter="博客" aria-pressed="false">博客</button>
+            <button class="filter-chip" type="button" data-filter="实验" aria-pressed="false">实验</button>
+            <button class="filter-chip" type="button" data-filter="灵感" aria-pressed="false">灵感</button>
+            <button class="filter-chip" type="button" data-filter="融合" aria-pressed="false">融合</button>
+          </div>
+          <div class="library-actions">
+            <button id="toggleHidden" type="button" aria-pressed="false"><span id="toggleHiddenLabel">显示已隐藏</span> <span class="hidden-count" id="hiddenCount">0</span></button>
+            <button id="restoreAll" type="button" disabled>恢复全部</button>
+          </div>
+          <p class="filter-summary" id="filterSummary" aria-live="polite">显示 39 / 39</p>
+        </div>
       </div>
       <nav class="demo-list" aria-label="全部 Demo">
         <button class="demo-item on" data-src="index.html?clean#a" data-title="像素存档">
@@ -401,6 +524,14 @@
         <button class="demo-item" data-src="s18-dream.html" data-title="梦境像素存档">
           <span class="demo-num">38</span><span class="demo-copy"><b>梦境像素存档</b><small>滚动透视与记忆层级</small></span><span class="demo-group">融合</span>
         </button>
+        <button class="demo-item" data-src="s19-room-compare.html" data-title="小房间 · 双风格对照">
+          <span class="demo-num">39</span><span class="demo-copy"><b>小房间 · 双风格对照</b><small>等距像素与低多边形 3D</small></span><span class="demo-group">实验</span>
+        </button>
+        <div class="empty-state" id="emptyState" hidden>
+          <b>没有匹配的风格</b>
+          <p>试试其他关键词，或切换到“全部”分类。</p>
+          <button id="clearFilters" type="button">清除筛选</button>
+        </div>
       </nav>
     </aside>
 
@@ -431,62 +562,219 @@
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const openBtn = document.getElementById('openBtn');
+  const searchInput = document.getElementById('searchInput');
+  const filterSummary = document.getElementById('filterSummary');
+  const hiddenCount = document.getElementById('hiddenCount');
+  const toggleHidden = document.getElementById('toggleHidden');
+  const toggleHiddenLabel = document.getElementById('toggleHiddenLabel');
+  const restoreAll = document.getElementById('restoreAll');
+  const emptyState = document.getElementById('emptyState');
+  const libraryCount = document.getElementById('libraryCount');
+  const filterChips = [...document.querySelectorAll('.filter-chip')];
+  const storageKey = 'blog-style-gallery-hidden-v1';
+  const entries = new Map();
   let current = 0;
+  let category = 'all';
+  let query = '';
+  let showHidden = false;
+
+  function itemNumber(item) {
+    return item.querySelector('.demo-num').textContent;
+  }
+
+  function loadHidden() {
+    try {
+      const stored = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      const valid = new Set(items.map(itemNumber));
+      return new Set(Array.isArray(stored) ? stored.filter(number => valid.has(number)) : []);
+    } catch {
+      return new Set();
+    }
+  }
+
+  const hidden = loadHidden();
+
+  function saveHidden() {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify([...hidden]));
+    } catch {
+      return;
+    }
+  }
+
+  items.forEach(item => {
+    const number = itemNumber(item);
+    const title = item.dataset.title;
+    const entry = document.createElement('div');
+    entry.className = 'demo-entry';
+    const hideButton = document.createElement('button');
+    hideButton.className = 'hide-btn';
+    hideButton.type = 'button';
+    hideButton.dataset.number = number;
+    hideButton.addEventListener('click', () => {
+      if (hidden.has(number)) hidden.delete(number);
+      else hidden.add(number);
+      saveHidden();
+      refreshLibrary();
+    });
+    item.replaceWith(entry);
+    entry.append(item, hideButton);
+    entries.set(number, entry);
+    item.addEventListener('click', () => {
+      const index = getVisibleItems().indexOf(item);
+      if (index >= 0) selectDemo(index);
+    });
+  });
+
+  function getVisibleItems() {
+    const needle = query.trim().toLocaleLowerCase('zh-CN');
+    return items.filter(item => {
+      const number = itemNumber(item);
+      if (hidden.has(number) && !showHidden) return false;
+      if (category !== 'all' && item.querySelector('.demo-group').textContent !== category) return false;
+      if (!needle) return true;
+      const searchable = [number, item.dataset.title, item.querySelector('.demo-copy small').textContent, item.querySelector('.demo-group').textContent].join(' ').toLocaleLowerCase('zh-CN');
+      return searchable.includes(needle);
+    });
+  }
+
+  function updateNavigation() {
+    const visible = getVisibleItems();
+    const position = visible.indexOf(items[current]);
+    items.forEach(item => item.classList.toggle('on', item === items[current] && position >= 0));
+    prevBtn.disabled = position <= 0;
+    nextBtn.disabled = position < 0 || position >= visible.length - 1;
+  }
 
   function selectDemo(index, updateHash = true) {
-    current = Math.max(0, Math.min(items.length - 1, index));
+    const visible = getVisibleItems();
+    if (!visible.length) return;
+    current = items.indexOf(visible[Math.max(0, Math.min(visible.length - 1, index))]);
     const item = items[current];
-    const num = item.querySelector('.demo-num').textContent;
+    const num = itemNumber(item);
     const title = item.dataset.title;
 
-    items.forEach((el, i) => el.classList.toggle('on', i === current));
     currentNum.textContent = num;
     currentTitle.textContent = title;
     frame.src = item.dataset.src;
     frame.title = `Demo 预览：${title}`;
     openBtn.href = item.dataset.src;
-    prevBtn.disabled = current === 0;
-    nextBtn.disabled = current === items.length - 1;
     document.title = `${num} · ${title}｜个人博客风格筛选`;
+    updateNavigation();
 
-    const active = items[current];
     const sidebar = document.querySelector('.sidebar');
-    const itemRect = active.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
     const sideRect = sidebar.getBoundingClientRect();
     if (itemRect.top < sideRect.top || itemRect.bottom > sideRect.bottom) {
-      active.scrollIntoView({ block: 'nearest' });
+      item.scrollIntoView({ block: 'nearest' });
     }
 
     if (updateHash) history.replaceState(null, '', `#${num}`);
   }
 
-  items.forEach((item, index) => {
-    item.addEventListener('click', () => selectDemo(index));
+  function refreshLibrary() {
+    const visible = getVisibleItems();
+    items.forEach(item => {
+      const number = itemNumber(item);
+      const isHidden = hidden.has(number);
+      const entry = entries.get(number);
+      const hideButton = entry.querySelector('.hide-btn');
+      entry.classList.toggle('is-hidden', isHidden);
+      entry.hidden = !visible.includes(item);
+      hideButton.textContent = isHidden ? '↺' : '×';
+      hideButton.setAttribute('aria-label', `${isHidden ? '恢复' : '隐藏'} ${item.dataset.title}`);
+      hideButton.title = `${isHidden ? '恢复' : '隐藏'} ${item.dataset.title}`;
+    });
+
+    filterChips.forEach(chip => chip.setAttribute('aria-pressed', String(chip.dataset.filter === category)));
+    hiddenCount.textContent = hidden.size;
+    toggleHidden.setAttribute('aria-pressed', String(showHidden));
+    toggleHiddenLabel.textContent = showHidden ? '仅看保留' : '显示已隐藏';
+    restoreAll.disabled = hidden.size === 0;
+    libraryCount.textContent = `${items.length - hidden.size} 款保留`;
+    filterSummary.textContent = `显示 ${visible.length} / ${items.length} · 已隐藏 ${hidden.size}`;
+    emptyState.hidden = visible.length > 0;
+
+    if (!visible.length) {
+      updateNavigation();
+      return;
+    }
+    if (!visible.includes(items[current])) {
+      const next = visible.find(item => items.indexOf(item) > current) || visible[0];
+      selectDemo(visible.indexOf(next), false);
+    } else {
+      updateNavigation();
+    }
+  }
+
+  searchInput.addEventListener('input', () => {
+    query = searchInput.value;
+    refreshLibrary();
+  });
+  searchInput.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      query = '';
+      searchInput.value = '';
+      refreshLibrary();
+    }
+  });
+  filterChips.forEach(chip => chip.addEventListener('click', () => {
+    category = chip.dataset.filter;
+    refreshLibrary();
+  }));
+  toggleHidden.addEventListener('click', () => {
+    showHidden = !showHidden;
+    refreshLibrary();
+  });
+  restoreAll.addEventListener('click', () => {
+    hidden.clear();
+    saveHidden();
+    refreshLibrary();
+  });
+  document.getElementById('clearFilters').addEventListener('click', () => {
+    query = '';
+    category = 'all';
+    searchInput.value = '';
+    refreshLibrary();
+    searchInput.focus();
   });
 
-  prevBtn.addEventListener('click', () => selectDemo(current - 1));
-  nextBtn.addEventListener('click', () => selectDemo(current + 1));
+  prevBtn.addEventListener('click', () => {
+    const visible = getVisibleItems();
+    selectDemo(visible.indexOf(items[current]) - 1);
+  });
+  nextBtn.addEventListener('click', () => {
+    const visible = getVisibleItems();
+    selectDemo(visible.indexOf(items[current]) + 1);
+  });
 
-  addEventListener('keydown', (event) => {
+  addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-    if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+    if (event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+    const visible = getVisibleItems();
+    const position = visible.indexOf(items[current]);
     if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
       event.preventDefault();
-      selectDemo(current - 1);
+      selectDemo(position - 1);
     }
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
       event.preventDefault();
-      selectDemo(current + 1);
+      selectDemo(position + 1);
     }
   });
 
   addEventListener('hashchange', () => {
-    const index = items.findIndex(item => item.querySelector('.demo-num').textContent === location.hash.slice(1));
-    if (index >= 0) selectDemo(index, false);
+    const index = items.findIndex(item => itemNumber(item) === location.hash.slice(1));
+    const visible = getVisibleItems();
+    const visibleIndex = index >= 0 ? visible.indexOf(items[index]) : -1;
+    selectDemo(visibleIndex >= 0 ? visibleIndex : 0, false);
   });
 
-  const initial = items.findIndex(item => item.querySelector('.demo-num').textContent === location.hash.slice(1));
-  selectDemo(initial >= 0 ? initial : 0, false);
+  refreshLibrary();
+  const initial = items.findIndex(item => itemNumber(item) === location.hash.slice(1));
+  const initialVisible = getVisibleItems();
+  const initialIndex = initial >= 0 ? initialVisible.indexOf(items[initial]) : -1;
+  selectDemo(initialIndex >= 0 ? initialIndex : 0, false);
 </script>
 </body>
 </html>
