@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="一间小屋，一些日常。固定斜俯视角的实时三维公寓，记录写代码、休息和阳台上的片刻。">
+  <title>ROOM / 03 — 生活，正在发生</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%2366745c'/%3E%3Cpath d='M7 16 16 8l9 8v10H7Z' fill='%23eee8d9'/%3E%3Cpath d='M14 19h5v7h-5Z' fill='%23ae654a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./s20-apartment.css">
+</head>
+<body data-period="day" data-action="code">
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand-name">ROOM <span class="brand-slash">/</span> 03</span>
+        <span class="brand-note">生活，正在发生</span>
+      </div>
+      <a class="gallery-link" href="./gallery.html#39">返回作品集 <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main class="apartment-layout">
+      <section class="introduction" aria-labelledby="page-title">
+        <p class="eyebrow">A LITTLE SPACE <br>OF MY OWN</p>
+        <h1 id="page-title">一间小屋，<br>一些日常。</h1>
+        <div class="intro-copy desktop-copy">
+          <p>城市很大，生活很小。<br>在自己的几平方米里，<br>把日子过得慢一点。</p>
+          <p>固定的斜俯视机位，三种日常状态。写代码、睡觉，或去阳台抽支烟。无论做什么，狗狗一直熟睡。</p>
+        </div>
+        <p class="intro-copy mobile-copy">固定机位，三种日常。你忙你的，狗狗一直熟睡。</p>
+        <div class="room-note" aria-hidden="true">
+          <span class="note-line"></span>
+          <span>SMALL ROOM.<br>ORDINARY, LOVELY DAYS.</span>
+        </div>
+      </section>
+
+      <section class="room-stage" aria-label="小公寓三维场景与日常状态控制">
+        <div class="scene-heading">
+          <span class="scene-label"><span class="status-dot" aria-hidden="true"></span> A ROOM, IN REALTIME 3D</span>
+          <span class="time-label">LOCAL <span id="local-time">--:--</span></span>
+        </div>
+
+        <div id="scene-wrap">
+          <canvas id="scene-canvas" role="img" aria-label="固定斜俯视角的三维小公寓，人物在屋内生活，狗狗安静熟睡。可使用下方按钮切换人物状态与日夜。"></canvas>
+          <p id="scene-message" role="status">正在布置房间…</p>
+          <p id="scene-error" hidden role="alert">房间暂时无法载入，请使用本地 HTTP 服务打开，或换用支持 WebGL 的浏览器。</p>
+          <span class="camera-label" aria-hidden="true">CAM 01 <span>/</span> FIXED VIEW</span>
+          <span class="scene-coordinate" aria-hidden="true">ROOM / 03</span>
+        </div>
+
+        <div class="scene-controls">
+          <div class="action-buttons" role="group" aria-label="选择人物的日常状态">
+            <button class="action-button" type="button" data-action="code" disabled aria-pressed="true">
+              <span class="action-number" aria-hidden="true">01</span>
+              <span class="action-name">写代码<span class="action-english" lang="en">A LITTLE WORK</span></span>
+              <span class="selection-mark" aria-hidden="true"></span>
+            </button>
+            <button class="action-button" type="button" data-action="sleep" disabled aria-pressed="false">
+              <span class="action-number" aria-hidden="true">02</span>
+              <span class="action-name">睡觉<span class="action-english" lang="en">A LITTLE REST</span></span>
+              <span class="selection-mark" aria-hidden="true"></span>
+            </button>
+            <button class="action-button" type="button" data-action="smoke" disabled aria-pressed="false">
+              <span class="action-number" aria-hidden="true">03</span>
+              <span class="action-name">阳台抽烟<span class="action-english" lang="en">A QUIET BREAK</span></span>
+              <span class="selection-mark" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="stage-meta">
+            <p id="stage-caption" aria-live="polite">在写代码，狗狗在做梦。</p>
+            <div class="view-toggles" role="group" aria-label="场景设置">
+              <button id="period-toggle" class="text-button" type="button" disabled aria-pressed="false">切换夜景</button>
+              <span class="toggle-divider" aria-hidden="true"></span>
+              <button id="motion-toggle" class="text-button" type="button" disabled aria-pressed="false">暂停动态</button>
+            </div>
+          </div>
+        </div>
+        <noscript><p class="noscript-note">请启用 JavaScript，以载入三维房间与日常场景。</p></noscript>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>程序搭建 · 固定斜俯视 · 无需建模</p>
+      <p>人物与狗狗为示意角色，之后可按照片定制</p>
+      <span class="footer-edition" aria-hidden="true">EVERYDAY STUDIES — NO. 03</span>
+    </footer>
+  </div>
+  <script type="module" src="./s20-apartment.js"></script>
+</body>
+</html>
